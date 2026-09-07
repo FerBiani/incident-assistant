@@ -132,9 +132,9 @@ O usuário pode cadastrar, consultar, editar e excluir os projetos utilizados pa
 
 ---
 
-### Registro de incidentes
+### Gerenciamento de incidentes
 
-O usuário pode registrar manualmente um incidente relacionado a um projeto, fornecendo as informações disponíveis sobre o problema.
+O usuário pode cadastrar incidentes relacionados a um projeto, fornecendo as informações disponíveis sobre o problema. E o usuário também pode consultar, editar e excluir os incidentes.
 
 O incidente registrado passa a ser o ponto central para as etapas posteriores de análise e investigação.
 
@@ -274,7 +274,8 @@ Para manter o projeto pequeno e focado nos objetivos de estudo, não fazem parte
 
 * organizações ou múltiplos tenants;
 * gerenciamento complexo de equipes;
-* autenticação e permissões avançadas;
+* autenticação;
+* permissões avançadas;
 * responsáveis por incidentes;
 * SLAs;
 * notificações;
