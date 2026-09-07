@@ -1,7 +1,7 @@
 <?php
 
-test('returns a successful response', function () {
+test('redirects the home page to the project list', function () {
     $response = $this->get(route('home'));
 
-    $response->assertOk();
+    $response->assertRedirectToRoute('projects.index');
 });

@@ -1,4 +1,6 @@
 import type { Auth } from '@/types/auth';
+import type { Page, Router } from '@inertiajs/core';
+import type { createHeadManager } from '@inertiajs/core';
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -18,7 +20,10 @@ declare module '@inertiajs/core' {
         sharedPageProps: {
             name: string;
             auth: Auth;
-            sidebarOpen: boolean;
+            flash: {
+                success: string | null;
+                error: string | null;
+            };
             [key: string]: unknown;
         };
     }

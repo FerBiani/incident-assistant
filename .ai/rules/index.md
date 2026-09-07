@@ -7,4 +7,5 @@ Before planning or editing, find the row whose globs match the file's path and r
 | app/Actions/** | .ai/rules/actions.md |
 | app/Http/Controllers/** | .ai/rules/controllers.md |
 | ** | .ai/rules/general.md |
+| app/Http/Resources/** | .ai/rules/http-resources.md |
 | resources/** | .ai/rules/resources.md |
