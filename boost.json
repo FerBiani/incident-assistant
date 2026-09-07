@@ -9,8 +9,10 @@
     "sail": false,
     "skills": [
         "infer-conventions",
+        "ai-sdk-development",
         "laravel-best-practices",
         "testing-best-practices",
+        "mcp-development",
         "wayfinder-development",
         "inertia-vue-development",
         "tailwindcss-development"
