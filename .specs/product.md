@@ -128,7 +128,7 @@ Um agente trabalhando no repositório de uma aplicação poderá, por exemplo:
 
 ### Gerenciamento de projetos
 
-O usuário pode cadastrar e consultar os projetos utilizados para organizar os incidentes.
+O usuário pode cadastrar, consultar, editar e excluir os projetos utilizados para organizar os incidentes.
 
 ---
 
