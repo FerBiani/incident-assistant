@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\IncidentAnalysisController;
 use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\IncidentInvestigationController;
 use App\Http\Controllers\IncidentNoteController;
@@ -10,13 +11,13 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/projects')->name('home');
 
 Route::resource('projects', ProjectController::class);
+
 Route::resource('incidents', IncidentController::class);
 
-Route::post('incidents/{incident}/investigation', [IncidentInvestigationController::class, 'store'])
-    ->name('incidents.investigation.store');
-Route::post('incidents/{incident}/resolution', [IncidentResolutionController::class, 'store'])
-    ->name('incidents.resolution.store');
-Route::delete('incidents/{incident}/resolution', [IncidentResolutionController::class, 'destroy'])
-    ->name('incidents.resolution.destroy');
-Route::post('incidents/{incident}/notes', [IncidentNoteController::class, 'store'])
-    ->name('incidents.notes.store');
+Route::prefix('incidents/{incident}')->name('incidents.')->group(function() {
+    Route::post('investigation', [IncidentInvestigationController::class, 'store'])->name('store');
+    Route::post('resolution', [IncidentResolutionController::class, 'store'])->name('resolution.store');
+    Route::delete('resolution', [IncidentResolutionController::class, 'destroy'])->name('resolution.destroy');
+    Route::post('notes', [IncidentNoteController::class, 'store'])->name('notes.store');
+    Route::get('analysis', IncidentAnalysisController::class)->name('analysis');
+});

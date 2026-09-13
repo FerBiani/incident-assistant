@@ -23,7 +23,19 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['project_id', 'title', 'description', 'logs', 'severity', 'status'])]
+#[Fillable([
+    'project_id',
+    'title',
+    'description',
+    'logs',
+    'severity',
+    'status',
+    'ai_severity',
+    'ai_probable_causes',
+    'ai_recommended_actions',
+    'ai_summary',
+    'ai_analyzed_at',
+])]
 class Incident extends Model
 {
     /** @use HasFactory<IncidentFactory> */
@@ -47,6 +59,9 @@ class Incident extends Model
         return [
             'severity' => IncidentSeverity::class,
             'status' => IncidentStatus::class,
+            'ai_probable_causes' => 'array',
+            'ai_recommended_actions' => 'array',
+            'ai_analyzed_at' => 'datetime',
         ];
     }
 }
