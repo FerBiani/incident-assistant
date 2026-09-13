@@ -4,12 +4,17 @@ namespace App\Ai\Tools;
 
 use App\Models\Incident;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
+use Laravel\Ai\Approvals\Approval;
+use Laravel\Ai\Concerns\InteractsWithApprovals;
+use Laravel\Ai\Contracts\Approvable;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Tools\Request;
 use Stringable;
 
-class AddIncidentNote implements Tool
+class AddIncidentNote implements Approvable, Tool
 {
+    use InteractsWithApprovals;
+
     public function __construct(
         private readonly Incident $incident,
     ) {}
@@ -42,5 +47,12 @@ class AddIncidentNote implements Tool
                 )
                 ->required(),
         ];
+    }
+
+    protected function needsApproval(): Approval|bool
+    {
+        return Approval::required(
+            'A note will be added to the incident investigation history.'
+        );
     }
 }
