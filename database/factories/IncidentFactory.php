@@ -27,6 +27,11 @@ class IncidentFactory extends Factory
             'logs' => fake()->optional()->text(),
             'severity' => fake()->randomElement(IncidentSeverity::cases()),
             'status' => IncidentStatus::Open,
+            'ai_summary' => null,
+            'ai_severity' => null,
+            'ai_probable_causes' => null,
+            'ai_recommended_actions' => null,
+            'ai_analyzed_at' => null,
         ];
     }
 

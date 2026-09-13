@@ -4,13 +4,13 @@ namespace App\Models;
 
 use App\Enums\IncidentSeverity;
 use App\Enums\IncidentStatus;
-use Database\Factories\IncidentFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Laravel\Ai\Concerns\HasConversations;
 
 /**
  * @property int $id
@@ -20,6 +20,11 @@ use Illuminate\Support\Carbon;
  * @property string|null $logs
  * @property IncidentSeverity $severity
  * @property IncidentStatus $status
+ * @property string|null $ai_summary
+ * @property IncidentSeverity|null $ai_severity
+ * @property list<string>|null $ai_probable_causes
+ * @property list<string>|null $ai_recommended_actions
+ * @property Carbon|null $ai_analyzed_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
@@ -38,27 +43,24 @@ use Illuminate\Support\Carbon;
 ])]
 class Incident extends Model
 {
-    /** @use HasFactory<IncidentFactory> */
-    use HasFactory;
+    use HasFactory, HasConversations;
 
-    /** @return BelongsTo<Project, $this> */
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
     }
 
-    /** @return HasMany<IncidentNote, $this> */
     public function notes(): HasMany
     {
         return $this->hasMany(IncidentNote::class);
     }
 
-    /** @return array<string, class-string> */
     protected function casts(): array
     {
         return [
             'severity' => IncidentSeverity::class,
             'status' => IncidentStatus::class,
+            'ai_severity' => IncidentSeverity::class,
             'ai_probable_causes' => 'array',
             'ai_recommended_actions' => 'array',
             'ai_analyzed_at' => 'datetime',
