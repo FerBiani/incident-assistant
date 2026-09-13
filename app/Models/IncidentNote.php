@@ -13,10 +13,11 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property int $incident_id
  * @property string $content
+ * @property string|null $source
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['incident_id', 'content'])]
+#[Fillable(['incident_id', 'content', 'source'])]
 class IncidentNote extends Model
 {
     /** @use HasFactory<IncidentNoteFactory> */

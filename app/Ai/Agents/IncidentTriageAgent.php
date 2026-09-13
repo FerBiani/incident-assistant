@@ -26,7 +26,7 @@ class IncidentTriageAgent implements Agent, HasStructuredOutput
     public function instructions(): Stringable|string
     {
         return <<<PROMPT
-            'You are an assistant specialized in triaging software incidents.
+            You are an assistant specialized in triaging software incidents.
 
             Analyze the incident information provided by the user.
 

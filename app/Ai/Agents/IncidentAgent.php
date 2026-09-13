@@ -2,6 +2,8 @@
 
 namespace App\Ai\Agents;
 
+use App\Ai\Tools\AddIncidentNote;
+use App\Ai\Tools\SearchRelatedIncidents;
 use App\Models\Incident;
 use App\Traits\FormatterHelpers;
 use Laravel\Ai\Attributes\Model;
@@ -9,12 +11,13 @@ use Laravel\Ai\Attributes\Provider;
 use Laravel\Ai\Concerns\RemembersConversations;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\Conversational;
+use Laravel\Ai\Contracts\HasTools;
 use Laravel\Ai\Promptable;
 use Stringable;
 
 #[Provider('ollama')]
 #[Model('qwen3:4b-instruct')]
-class IncidentAgent implements Agent, Conversational
+class IncidentAgent implements Agent, Conversational, HasTools
 {
     use Promptable, RemembersConversations, FormatterHelpers;
 
@@ -77,11 +80,11 @@ class IncidentAgent implements Agent, Conversational
         PROMPT;
     }
 
-    // public function tools(): iterable
-    // {
-    //     return [
-    //         new SearchRelatedIncidents($this->incident),
-    //         new AddIncidentNote($this->incident),
-    //     ];
-    // }
+    public function tools(): iterable
+    {
+        return [
+            new SearchRelatedIncidents($this->incident),
+            new AddIncidentNote($this->incident),
+        ];
+    }
 }

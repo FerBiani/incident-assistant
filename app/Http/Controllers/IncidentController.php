@@ -68,7 +68,7 @@ class IncidentController extends Controller
     {
         $incident->load([
             'project:id,name,description',
-            'notes' => fn ($query) => $query->orderBy('created_at')->orderBy('id'),
+            'notes' => fn ($query) => $query->orderBy('created_at', 'desc'),
         ]);
 
         return Inertia::render('Incidents/Show', [

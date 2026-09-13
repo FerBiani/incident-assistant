@@ -90,12 +90,12 @@ it('rejects an empty note', function () {
     $this->assertDatabaseCount('incident_notes', 0);
 });
 
-it('shows notes in stable chronological order', function () {
+it('shows notes ordered by most recent', function () {
     $incident = Incident::factory()->create();
     $createdAt = now()->subDay();
-    $first = IncidentNote::factory()->for($incident)->create(['created_at' => $createdAt]);
+    $third = IncidentNote::factory()->for($incident)->create(['created_at' => $createdAt]);
     $second = IncidentNote::factory()->for($incident)->create(['created_at' => $createdAt]);
-    $third = IncidentNote::factory()->for($incident)->create(['created_at' => now()]);
+    $first = IncidentNote::factory()->for($incident)->create(['created_at' => now()]);
 
     $response = $this->get(route('incidents.show', $incident));
 

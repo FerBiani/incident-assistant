@@ -9,6 +9,9 @@ class AddIncidentNote
 {
     public function handle(Incident $incident, string $content): IncidentNote
     {
-        return $incident->notes()->create(['content' => $content]);
+        return $incident->notes()->create([
+            'content' => $content,
+            'source' => 'user',
+        ]);
     }
 }
