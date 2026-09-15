@@ -11,13 +11,18 @@ import {
     store as resolve,
 } from '@/actions/App/Http/Controllers/IncidentResolutionController';
 import EmptyState from '@/components/EmptyState.vue';
+import IncidentAnalysisPanel from '@/components/IncidentAnalysisPanel.vue';
+import IncidentChat from '@/components/IncidentChat.vue';
 import SeverityBadge from '@/components/SeverityBadge.vue';
 import StatusBadge from '@/components/StatusBadge.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
-import type { Incident } from '@/types';
+import type { Incident, IncidentConversation } from '@/types';
 import { Form, Head, Link, router } from '@inertiajs/vue3';
 
-const props = defineProps<{ incident: Incident }>();
+const props = defineProps<{
+    incident: Incident;
+    conversation: IncidentConversation | null;
+}>();
 
 function formatDate(value: string): string {
     return new Intl.DateTimeFormat('pt-BR', {
@@ -151,11 +156,16 @@ function deleteIncident(): void {
                 </p>
             </section>
 
+            <IncidentAnalysisPanel :incident="incident" />
+
+            <IncidentChat :incident="incident" :conversation="conversation" />
+
             <section class="flex flex-col gap-5">
                 <div>
                     <h2 class="text-lg font-semibold">Notas de investigação</h2>
                     <p class="text-sm text-slate-500">
-                        Histórico manual em ordem cronológica.
+                        Histórico completo em ordem cronológica, com origem
+                        identificada.
                     </p>
                 </div>
 
@@ -198,13 +208,31 @@ function deleteIncident(): void {
                     <li
                         v-for="note in incident.notes"
                         :key="note.id"
-                        class="rounded-lg border border-slate-200 bg-white p-5"
+                        class="rounded-lg border p-5"
+                        :class="
+                            note.source === 'ai'
+                                ? 'border-blue-200 bg-blue-50/40'
+                                : 'border-slate-200 bg-white'
+                        "
                     >
-                        <time
-                            :datetime="note.created_at"
-                            class="text-xs font-medium text-slate-500"
-                            >{{ formatDate(note.created_at) }}</time
+                        <div
+                            class="flex flex-wrap items-center justify-between gap-2"
                         >
+                            <span
+                                class="rounded-full px-2.5 py-1 text-xs font-semibold"
+                                :class="
+                                    note.source === 'ai'
+                                        ? 'bg-blue-100 text-blue-800'
+                                        : 'bg-slate-100 text-slate-700'
+                                "
+                                >{{ note.source_label }}</span
+                            >
+                            <time
+                                :datetime="note.created_at"
+                                class="text-xs font-medium text-slate-500"
+                                >{{ formatDate(note.created_at) }}</time
+                            >
+                        </div>
                         <p
                             class="mt-2 text-sm break-words whitespace-pre-wrap text-slate-700"
                         >
