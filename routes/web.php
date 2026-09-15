@@ -15,9 +15,9 @@ Route::resource('projects', ProjectController::class);
 Route::resource('incidents', IncidentController::class);
 
 Route::prefix('incidents/{incident}')->name('incidents.')->group(function() {
-    Route::post('investigation', [IncidentInvestigationController::class, 'store'])->name('store');
+    Route::post('investigation', [IncidentInvestigationController::class, 'store'])->name('investigation.store');
     Route::post('resolution', [IncidentResolutionController::class, 'store'])->name('resolution.store');
     Route::delete('resolution', [IncidentResolutionController::class, 'destroy'])->name('resolution.destroy');
     Route::post('notes', [IncidentNoteController::class, 'store'])->name('notes.store');
-    Route::get('analysis', IncidentAnalysisController::class)->name('analysis');
+    Route::post('analysis', IncidentAnalysisController::class)->name('analysis');
 });
