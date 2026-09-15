@@ -2,6 +2,7 @@
 
 use App\Actions\AnalyzeIncident;
 use App\Ai\Agents\IncidentTriageAgent;
+use App\Enums\IncidentSeverity;
 use App\Models\Incident;
 use App\Models\IncidentNote;
 
@@ -35,7 +36,7 @@ it('analyzes an incident using the triage agent', function () {
     );
 
     $this->assertSame(
-        'high',
+        IncidentSeverity::High,
         $incident->ai_severity,
     );
 

@@ -10,6 +10,7 @@ use App\Enums\IncidentStatus;
 use App\Http\Requests\FilterIncidentsRequest;
 use App\Http\Requests\StoreIncidentRequest;
 use App\Http\Requests\UpdateIncidentRequest;
+use App\Http\Resources\IncidentConversationResource;
 use App\Http\Resources\IncidentResource;
 use App\Http\Resources\IncidentSummaryResource;
 use App\Models\Incident;
@@ -68,11 +69,21 @@ class IncidentController extends Controller
     {
         $incident->load([
             'project:id,name,description',
-            'notes' => fn ($query) => $query->orderBy('created_at', 'desc'),
+            'notes' => fn ($query) => $query->orderBy('created_at')->orderBy('id'),
+        ]);
+        $conversation = $incident->conversations()
+            ->latest('updated_at')
+            ->latest('id')
+            ->first();
+        $conversation?->load([
+            'messages' => fn ($query) => $query->orderBy('created_at')->orderBy('id'),
         ]);
 
         return Inertia::render('Incidents/Show', [
             'incident' => new IncidentResource($incident),
+            'conversation' => $conversation === null
+                ? null
+                : new IncidentConversationResource($conversation),
         ]);
     }
 

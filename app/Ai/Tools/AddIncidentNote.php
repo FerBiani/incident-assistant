@@ -2,6 +2,8 @@
 
 namespace App\Ai\Tools;
 
+use App\Actions\AddIncidentNote as AddIncidentNoteAction;
+use App\Enums\IncidentNoteSource;
 use App\Models\Incident;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Ai\Approvals\Approval;
@@ -17,6 +19,7 @@ class AddIncidentNote implements Approvable, Tool
 
     public function __construct(
         private readonly Incident $incident,
+        private readonly AddIncidentNoteAction $addIncidentNote,
     ) {}
 
     public function description(): Stringable|string
@@ -29,10 +32,7 @@ class AddIncidentNote implements Approvable, Tool
     {
         $content = data_get($request, 'content');
 
-        $this->incident->notes()->create([
-            'content' => $content,
-            'source' => 'AI',
-        ]);
+        $this->addIncidentNote->handle($this->incident, $content, IncidentNoteSource::Ai);
 
         return 'Nota criada com sucesso!';
     }
@@ -52,7 +52,7 @@ class AddIncidentNote implements Approvable, Tool
     protected function needsApproval(): Approval|bool
     {
         return Approval::required(
-            'A note will be added to the incident investigation history.'
+            'Uma nota será adicionada ao histórico de investigação do incidente.'
         );
     }
 }

@@ -90,20 +90,20 @@ it('rejects an empty note', function () {
     $this->assertDatabaseCount('incident_notes', 0);
 });
 
-it('shows notes ordered by most recent', function () {
+it('shows notes in stable chronological order', function () {
     $incident = Incident::factory()->create();
     $createdAt = now()->subDay();
-    $third = IncidentNote::factory()->for($incident)->create(['created_at' => $createdAt]);
-    $second = IncidentNote::factory()->for($incident)->create(['created_at' => $createdAt]);
-    $first = IncidentNote::factory()->for($incident)->create(['created_at' => now()]);
+    $olderFirst = IncidentNote::factory()->for($incident)->create(['created_at' => $createdAt]);
+    $olderSecond = IncidentNote::factory()->for($incident)->create(['created_at' => $createdAt]);
+    $newest = IncidentNote::factory()->for($incident)->create(['created_at' => now()]);
 
     $response = $this->get(route('incidents.show', $incident));
 
     $response->assertInertia(fn (Assert $page) => $page
         ->component('Incidents/Show')
-        ->where('incident.notes.0.id', $first->id)
-        ->where('incident.notes.1.id', $second->id)
-        ->where('incident.notes.2.id', $third->id)
+        ->where('incident.notes.0.id', $olderFirst->id)
+        ->where('incident.notes.1.id', $olderSecond->id)
+        ->where('incident.notes.2.id', $newest->id)
         ->missing('incident.notes.0.edit_url')
         ->missing('incident.notes.0.delete_url'));
 });

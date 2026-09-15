@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\IncidentAnalysisStatus;
 use App\Enums\IncidentSeverity;
 use App\Enums\IncidentStatus;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -25,6 +26,7 @@ use Laravel\Ai\Concerns\HasConversations;
  * @property list<string>|null $ai_probable_causes
  * @property list<string>|null $ai_recommended_actions
  * @property Carbon|null $ai_analyzed_at
+ * @property IncidentAnalysisStatus $ai_analysis_status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
@@ -40,10 +42,11 @@ use Laravel\Ai\Concerns\HasConversations;
     'ai_recommended_actions',
     'ai_summary',
     'ai_analyzed_at',
+    'ai_analysis_status',
 ])]
 class Incident extends Model
 {
-    use HasFactory, HasConversations;
+    use HasConversations, HasFactory;
 
     public function project(): BelongsTo
     {
@@ -64,6 +67,7 @@ class Incident extends Model
             'ai_probable_causes' => 'array',
             'ai_recommended_actions' => 'array',
             'ai_analyzed_at' => 'datetime',
+            'ai_analysis_status' => IncidentAnalysisStatus::class,
         ];
     }
 }

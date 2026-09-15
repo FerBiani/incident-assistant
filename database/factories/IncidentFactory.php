@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\IncidentAnalysisStatus;
 use App\Enums\IncidentSeverity;
 use App\Enums\IncidentStatus;
 use App\Models\Incident;
@@ -32,6 +33,7 @@ class IncidentFactory extends Factory
             'ai_probable_causes' => null,
             'ai_recommended_actions' => null,
             'ai_analyzed_at' => null,
+            'ai_analysis_status' => IncidentAnalysisStatus::NotStarted,
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\IncidentNoteSource;
 use Database\Factories\IncidentNoteFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property int $incident_id
  * @property string $content
- * @property string|null $source
+ * @property IncidentNoteSource $source
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
@@ -27,5 +28,12 @@ class IncidentNote extends Model
     public function incident(): BelongsTo
     {
         return $this->belongsTo(Incident::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'source' => IncidentNoteSource::class,
+        ];
     }
 }

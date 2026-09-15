@@ -5,6 +5,7 @@ use App\Enums\IncidentStatus;
 use App\Models\Incident;
 use App\Models\IncidentNote;
 use App\Models\Project;
+use Illuminate\Support\Facades\Queue;
 use Inertia\Testing\AssertableInertia as Assert;
 
 it('renders incident creation guidance when no project exists', function () {
@@ -38,6 +39,7 @@ it('renders alphabetic project options and every severity on the creation form',
 });
 
 it('creates an open incident without accepting status from the payload', function () {
+    Queue::fake();
     $project = Project::factory()->create();
 
     $response = $this->post(route('incidents.store'), [

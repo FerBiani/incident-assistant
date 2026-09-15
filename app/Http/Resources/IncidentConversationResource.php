@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources;
 
-use App\Models\IncidentNote;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Laravel\Ai\Models\Conversation;
 
-/** @mixin IncidentNote */
-class IncidentNoteResource extends JsonResource
+/** @mixin Conversation */
+class IncidentConversationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,10 +18,7 @@ class IncidentNoteResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'content' => $this->content,
-            'source' => $this->source->value,
-            'source_label' => $this->source->label(),
-            'created_at' => $this->created_at?->toISOString(),
+            'messages' => IncidentConversationMessageResource::collection($this->whenLoaded('messages')),
         ];
     }
 }

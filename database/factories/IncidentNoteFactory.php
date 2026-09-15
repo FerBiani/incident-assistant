@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\IncidentNoteSource;
 use App\Models\Incident;
 use App\Models\IncidentNote;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -21,6 +22,7 @@ class IncidentNoteFactory extends Factory
         return [
             'incident_id' => Incident::factory(),
             'content' => fake()->paragraph(),
+            'source' => IncidentNoteSource::User,
         ];
     }
 }

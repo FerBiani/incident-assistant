@@ -2,6 +2,7 @@
 
 namespace App\Ai\Agents;
 
+use App\Actions\AddIncidentNote as AddIncidentNoteAction;
 use App\Ai\Tools\AddIncidentNote;
 use App\Ai\Tools\SearchRelatedIncidents;
 use App\Models\Incident;
@@ -19,10 +20,11 @@ use Stringable;
 #[Model('qwen3:4b-instruct')]
 class IncidentAgent implements Agent, Conversational, HasTools
 {
-    use Promptable, RemembersConversations, FormatterHelpers;
+    use FormatterHelpers, Promptable, RemembersConversations;
 
     public function __construct(
-        private readonly Incident $incident
+        private readonly Incident $incident,
+        private readonly AddIncidentNoteAction $addIncidentNote,
     ) {}
 
     public function instructions(): Stringable|string
@@ -84,7 +86,7 @@ class IncidentAgent implements Agent, Conversational, HasTools
     {
         return [
             new SearchRelatedIncidents($this->incident),
-            new AddIncidentNote($this->incident),
+            new AddIncidentNote($this->incident, $this->addIncidentNote),
         ];
     }
 }

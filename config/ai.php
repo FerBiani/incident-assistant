@@ -2,6 +2,10 @@
 
 return [
 
+    'conversations' => [
+        'generate_title' => false,
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Default AI Provider Names
