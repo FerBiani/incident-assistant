@@ -3,8 +3,6 @@
 namespace App\Ai\Agents;
 
 use Illuminate\Contracts\JsonSchema\JsonSchema;
-use Laravel\Ai\Attributes\Model;
-use Laravel\Ai\Attributes\Provider;
 use Laravel\Ai\Attributes\Temperature;
 use Laravel\Ai\Attributes\Timeout;
 use Laravel\Ai\Contracts\Agent;
@@ -12,8 +10,6 @@ use Laravel\Ai\Contracts\HasStructuredOutput;
 use Laravel\Ai\Promptable;
 use Stringable;
 
-#[Provider('ollama')]
-#[Model('qwen3:4b-instruct')]
 #[Temperature(0.2)]
 #[Timeout(120)]
 class IncidentTriageAgent implements Agent, HasStructuredOutput
@@ -61,5 +57,15 @@ class IncidentTriageAgent implements Agent, HasStructuredOutput
                 ->items($schema->string())
                 ->required(),
         ];
+    }
+
+    public function provider(): string
+    {
+        return config('ai.default_provider');
+    }
+
+    public function model(): string
+    {
+        return config('ai.default_model');
     }
 }

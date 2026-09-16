@@ -23,6 +23,8 @@ return [
     'default_for_transcription' => 'openai',
     'default_for_embeddings' => 'openai',
     'default_for_reranking' => 'cohere',
+    'default_provider' => env('AI_PROVIDER', 'ollama'),
+    'default_model' => env('AI_MODEL', 'qwen3:4b-instruct'),
 
     /*
     |--------------------------------------------------------------------------
